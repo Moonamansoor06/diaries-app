@@ -1,17 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './App/App';
+import { setupServer } from './services/mirage/server';
+import { Provider } from 'react-redux';
+import store from './store';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+// ...
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#e0e0e0',
+      contrastText: '#9e9e9e',
 
+
+    },
+    secondary: {
+      main: '#0288d1',
+      contrastText: '#fffff',
+    },
+  },
+});
+
+if (process.env.NODE_ENV === 'development') {
+  setupServer();
+}
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+     <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
